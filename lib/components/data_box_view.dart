@@ -36,13 +36,13 @@ class _DataBoxView extends State<DataBoxView> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    final child = SizedBox(
       width: MediaQuery.of(context).size.width * 0.5 - 22.5,
       height: MediaQuery.of(context).size.width * 0.5 - 22.5,
       child: Card(
         child: InkWell(
           borderRadius: BorderRadius.circular(4),
-          onLongPress: () => widget.showDataBoxManager(widget.dataBox),
+          onDoubleTap: () => widget.showDataBoxManager(widget.dataBox),
           onTap: _fetchValue,
           child: Padding(
             padding: const EdgeInsets.all(10),
@@ -102,6 +102,15 @@ class _DataBoxView extends State<DataBoxView> {
           ),
         ),
       ),
+    );
+    return Draggable<DataBox>(
+      data: widget.dataBox,
+      feedback: child,
+      childWhenDragging: SizedBox(
+        width: MediaQuery.of(context).size.width * 0.5 - 22.5,
+        height: MediaQuery.of(context).size.width * 0.5 - 22.5,
+      ),
+      child: child,
     );
   }
 }

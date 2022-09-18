@@ -39,6 +39,15 @@ abstract class Storage {
     }
   }
 
+  static Future<void> saveBoxesOrder(List<DataBox> boxes) async {
+    try {
+      final preferences = await SharedPreferences.getInstance();
+      await preferences.setString('data_boxes', json.encode(boxes));
+    } catch (e) {
+      // Ignore
+    }
+  }
+
   static Future<void> removeDataBox(DataBox dataBox) async {
     try {
       final preferences = await SharedPreferences.getInstance();

@@ -74,6 +74,20 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  Future<void> _acceptDraggedDataBox(DataBox self, DataBox dataBox) async {
+    if (self.id != dataBox.id) {
+      _boxes!.remove(dataBox);
+      final selfIndex = _boxes!.indexWhere((box) => box.id == self.id);
+      if (selfIndex == _boxes!.length - 1) {
+        _boxes!.add(dataBox);
+      } else {
+        _boxes!.insert(selfIndex + 1, dataBox);
+      }
+      if (mounted) setState(() {});
+      await Storage.saveBoxesOrder(_boxes!);
+    }
+  }
+
   Future<void> _initDataBoxes() async {
     _boxes = await Storage.fetchDataBoxes();
     if (mounted) setState(() {});
@@ -122,9 +136,16 @@ class _MyHomePageState extends State<MyHomePage> {
                             runSpacing: 15,
                             children: [
                               for (var box in _boxes!)
-                                DataBoxView(
-                                  dataBox: box,
-                                  showDataBoxManager: _showDataBoxManager,
+                                DragTarget<DataBox>(
+                                  onAccept: (DataBox dataBox) =>
+                                      _acceptDraggedDataBox(
+                                    box,
+                                    dataBox,
+                                  ),
+                                  builder: (_, __, ___) => DataBoxView(
+                                    dataBox: box,
+                                    showDataBoxManager: _showDataBoxManager,
+                                  ),
                                 ),
                             ],
                           ),
