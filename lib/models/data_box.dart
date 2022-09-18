@@ -2,17 +2,20 @@ import 'dart:convert';
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:http/http.dart' as http;
+import 'package:the_updatooor/helpers/random.dart';
 
 part 'data_box.g.dart';
 
 @JsonSerializable()
 class DataBox {
+  final String id;
   final String url;
   final String path;
   final String name;
   final String prefix;
 
   DataBox(
+    this.id,
     this.url,
     this.path,
     this.name,

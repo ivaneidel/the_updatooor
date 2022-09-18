@@ -37,6 +37,7 @@ dependencies:
   desktop_window: ^0.4.0
   http: ^0.13.5
   json_annotation: ^4.6.0
+  shared_preferences: ^2.0.15
 
 dev_dependencies:
   flutter_test:

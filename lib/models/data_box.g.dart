@@ -7,6 +7,7 @@ part of 'data_box.dart';
 // **************************************************************************
 
 DataBox _$DataBoxFromJson(Map<String, dynamic> json) => DataBox(
+      json['id'] as String,
       json['url'] as String,
       json['path'] as String,
       json['name'] as String,
@@ -14,6 +15,7 @@ DataBox _$DataBoxFromJson(Map<String, dynamic> json) => DataBox(
     );
 
 Map<String, dynamic> _$DataBoxToJson(DataBox instance) => <String, dynamic>{
+      'id': instance.id,
       'url': instance.url,
       'path': instance.path,
       'name': instance.name,

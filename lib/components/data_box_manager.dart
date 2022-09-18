@@ -1,14 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:the_updatooor/helpers/random.dart';
 import 'package:the_updatooor/models/data_box.dart';
+import 'package:the_updatooor/models/db_managed.dart';
 
-class AddDataBox extends StatefulWidget {
-  const AddDataBox({Key? key}) : super(key: key);
+class DataBoxManager extends StatefulWidget {
+  final DataBox? dataBox;
+
+  const DataBoxManager({
+    Key? key,
+    this.dataBox,
+  }) : super(key: key);
 
   @override
-  State<AddDataBox> createState() => _AddDataBoxState();
+  State<DataBoxManager> createState() => _DataBoxManagerState();
 }
 
-class _AddDataBoxState extends State<AddDataBox> {
+class _DataBoxManagerState extends State<DataBoxManager> {
   final _urlController = TextEditingController();
   final _pathController = TextEditingController();
   final _nameController = TextEditingController();
@@ -29,17 +36,70 @@ class _AddDataBoxState extends State<AddDataBox> {
     _loading = true;
     _error = false;
     if (mounted) setState(() {});
-    final dataBox = DataBox(_url, _path, _name, _prefix);
+    final dataBox = DataBox(
+      widget.dataBox?.id ?? getRandomString(15),
+      _url,
+      _path,
+      _name,
+      _prefix,
+    );
     final value = await dataBox.fetchValue();
     if (value != null) {
       if (mounted) {
-        Navigator.of(context).pop(dataBox);
+        Navigator.of(context).pop(
+          DBManaged(
+            dataBox,
+            widget.dataBox != null ? ManagedState.edited : ManagedState.created,
+          ),
+        );
       }
     } else {
       _error = true;
     }
     _loading = false;
     if (mounted) setState(() {});
+  }
+
+  Future<void> _removeDataBox() async {
+    bool? response = await showDialog(
+      context: context,
+      builder: (_) => AlertDialog(
+        title: const Text('Remove DataBox'),
+        content: const Text('Are you sure you want to remove this DataBox?'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Remove'),
+          ),
+        ],
+      ),
+    );
+    if (response != null && response) {
+      if (mounted) {
+        Navigator.of(context).pop(DBManaged(
+          widget.dataBox!,
+          ManagedState.removed,
+        ));
+      }
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    if (widget.dataBox != null) {
+      _urlController.text = widget.dataBox!.url;
+      _pathController.text = widget.dataBox!.path;
+      _nameController.text = widget.dataBox!.name;
+      _prefixController.text = widget.dataBox!.prefix;
+
+      if (mounted) setState(() {});
+    }
   }
 
   @override
@@ -51,6 +111,17 @@ class _AddDataBoxState extends State<AddDataBox> {
           padding: const EdgeInsets.all(15),
           child: Column(
             children: [
+              if (widget.dataBox != null)
+                Align(
+                  alignment: AlignmentDirectional.topEnd,
+                  child: IconButton(
+                    onPressed: _removeDataBox,
+                    icon: const Icon(
+                      Icons.delete,
+                      color: Colors.red,
+                    ),
+                  ),
+                ),
               TextField(
                 controller: _urlController,
                 decoration: const InputDecoration(
