@@ -1,4 +1,3 @@
-import 'package:desktop_window/desktop_window.dart';
 import 'package:flutter/material.dart';
 import 'package:the_updatooor/components/data_box_manager.dart';
 import 'package:the_updatooor/components/data_box_view.dart';
@@ -6,9 +5,7 @@ import 'package:the_updatooor/models/data_box.dart';
 import 'package:the_updatooor/models/db_managed.dart';
 import 'package:the_updatooor/services/storage.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await DesktopWindow.setWindowSize(const Size(400, 800));
+void main() {
   runApp(const MyApp());
 }
 
