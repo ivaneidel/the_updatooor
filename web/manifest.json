@@ -1,11 +1,11 @@
 {
-    "name": "the_updatooor",
-    "short_name": "the_updatooor",
+    "name": "The Updatooor",
+    "short_name": "The Updatooor",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#454a4d",
+    "theme_color": "#454a4d",
+    "description": "The Updatooor webapp",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
