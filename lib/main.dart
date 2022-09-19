@@ -36,13 +36,17 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> _showDataBoxManager([DataBox? dataBox]) async {
     DBManaged? dbManaged = await showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(15),
           topRight: Radius.circular(15),
         ),
       ),
-      builder: (_) => DataBoxManager(dataBox: dataBox),
+      builder: (_) => Padding(
+        padding: MediaQuery.of(context).viewInsets,
+        child: DataBoxManager(dataBox: dataBox),
+      ),
     );
     if (dbManaged != null) {
       switch (dbManaged.managedState) {

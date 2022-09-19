@@ -110,6 +110,7 @@ class _DataBoxManagerState extends State<DataBoxManager> {
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
               if (widget.dataBox != null)
                 Align(
